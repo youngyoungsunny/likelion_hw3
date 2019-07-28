@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+
+<div class="container">
+<div class="card" >
+<div class="card-body">
+
+<h1>제목 : {{blog.title}}</h1><br>
+<p>내용 : {{blog.body}} </p>
+<p>만든시간 : {{blog.pub_date}}</p>
+
+</div>
+</div><br>
+</div>
+        
+
+<div class="container">
+<div class="card" >
+<div class="card-body">
+<h5>댓글</h5>
+<ul>
+{% for comment in blog.comment_set.all %}
+<li>
+    메시지 : {{comment.message}} | 
+    만든이 :  {{comment.author}} |
+    만든시간 : {{comment.created_at}}
+    {% if comment.author == request.user %}
+    <a href="{{ comment.get_edit_url }}">수정</a>
+    <a href="{{ comment.get_delete_url }}">삭제</a>
+    {% endif %}
+</li>
+<hr>
+{% endfor %}
+</ul>
+<a href="{% url 'comment_new' blog.id %}" class="btn btn-primary" >댓글쓰기</a>
+</div>
+</div><br>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
